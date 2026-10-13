@@ -1,0 +1,347 @@
+
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fashion Store | Online kiyim do‘koni</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--black:#171717;--cream:#f7f4ef;--beige:#e8dfd2;--white:#fff}
+body{font-family:Arial,sans-serif;color:var(--black);background:#fff}
+button,input,select{font:inherit}
+button{cursor:pointer}
+.announcement{background:#171717;color:white;text-align:center;padding:10px;font-size:12px;letter-spacing:1.5px}
+header{height:76px;display:flex;align-items:center;justify-content:space-between;padding:0 6%;border-bottom:1px solid #eee;gap:20px}
+.logo{font-family:Georgia,serif;font-size:25px;font-weight:bold;white-space:nowrap}
+nav{display:flex;gap:24px}
+nav a{color:#222;text-decoration:none;font-size:12px;font-weight:bold;letter-spacing:.5px}
+nav a:hover{color:#a18463}
+.header-actions{display:flex;gap:14px;align-items:center}
+.icon-btn{border:0;background:none;font-size:21px}
+.hero{background:var(--cream);display:grid;grid-template-columns:1fr 1fr;min-height:410px}
+.hero-text{padding:65px 10% 55px 12%;display:flex;flex-direction:column;justify-content:center;align-items:flex-start}
+.eyebrow{font-size:11px;letter-spacing:3px;color:#88745e;margin-bottom:20px}
+.hero h1{font-family:Georgia,serif;font-size:clamp(40px,5vw,67px);line-height:1.05;font-weight:normal;margin-bottom:20px}
+.hero p{line-height:1.8;color:#666;margin-bottom:28px;max-width:370px}
+.primary-btn{border:none;background:#171717;color:white;padding:15px 25px;font-size:12px;letter-spacing:1px}
+.primary-btn:hover{background:#8a7156}
+.hero-img{width:100%;height:100%;min-height:410px;object-fit:cover}
+.section{padding:55px 6%}
+.section-title{text-align:center;font-family:Georgia,serif;font-size:32px;font-weight:normal;margin-bottom:12px}
+.section-sub{text-align:center;color:#777;font-size:13px;margin-bottom:30px}
+.categories{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.category{position:relative;height:230px;overflow:hidden;cursor:pointer;background:#eee}
+.category img{width:100%;height:100%;object-fit:cover;transition:.4s}
+.category:hover img{transform:scale(1.05)}
+.category span{position:absolute;bottom:18px;left:18px;background:white;padding:12px 20px;font-weight:bold;font-size:12px;letter-spacing:1px}
+.shop-tools{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:28px 0}
+.search{padding:12px 14px;border:1px solid #ddd;width:min(300px,100%);outline:none}
+select{padding:12px;border:1px solid #ddd;background:white;max-width:100%}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.filter{border:1px solid #ddd;background:white;padding:10px 16px;font-size:12px}
+.filter.active,.filter:hover{background:#171717;color:white}
+.products{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:25px 16px}
+.product{min-width:0;position:relative}
+.product-image{position:relative;background:#f5f2ed;overflow:hidden;aspect-ratio:3/4}
+.product-image img{width:100%;height:100%;object-fit:cover;transition:.3s}
+.product:hover .product-image img{transform:scale(1.03)}
+.tag{position:absolute;top:10px;left:10px;background:white;padding:6px 8px;font-size:10px}
+.heart{position:absolute;top:9px;right:9px;background:white;border:0;border-radius:50%;width:34px;height:34px;font-size:19px}
+.heart.liked{color:#c33}
+.product-info{padding:13px 0}
+.product-info h3{font-size:14px;font-weight:500;margin-bottom:8px}
+.product-info p{font-size:12px;color:#777;margin-bottom:9px}
+.price{font-weight:bold;font-size:15px}
+.old-price{font-size:12px;color:#999;text-decoration:line-through;margin-left:6px}
+.add-btn{width:100%;padding:11px;border:1px solid #222;background:white;margin-top:12px;font-size:12px}
+.add-btn:hover{background:#171717;color:white}
+.empty{text-align:center;grid-column:1/-1;padding:40px;color:#777}
+.benefits{background:var(--cream);display:grid;grid-template-columns:repeat(3,1fr);gap:20px;padding:35px 6%;text-align:center}
+.benefits h3{font-size:14px;margin-bottom:8px}
+.benefits p{font-size:12px;color:#777;line-height:1.6}
+footer{background:#171717;color:white;padding:40px 6%;display:grid;grid-template-columns:2fr 1fr 1fr;gap:30px}
+footer h3{font-family:Georgia,serif;font-size:22px;margin-bottom:14px}
+footer p,footer a{font-size:12px;color:#bbb;line-height:2;text-decoration:none}
+footer a{display:block}
+.overlay{position:fixed;inset:0;background:#0007;z-index:10;display:none}
+.overlay.show{display:block}
+.drawer{position:fixed;right:0;top:0;height:100%;width:min(430px,100%);background:white;z-index:11;transform:translateX(100%);transition:.25s;padding:24px;overflow-y:auto}
+.drawer.show{transform:translateX(0)}
+.drawer-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
+.close-btn{border:0;background:none;font-size:27px}
+.cart-item{display:grid;grid-template-columns:75px 1fr auto;gap:12px;padding:14px 0;border-bottom:1px solid #eee}
+.cart-item img{width:75px;height:90px;object-fit:cover}
+.cart-item h4{font-size:13px;margin:4px 0 8px}
+.cart-item p{font-size:12px;color:#777}
+.qty{display:flex;gap:12px;align-items:center;margin-top:10px}
+.qty button{background:white;border:1px solid #ddd;width:25px;height:25px}
+.remove{border:0;background:none;color:#999;font-size:12px}
+.total{display:flex;justify-content:space-between;margin:24px 0;font-weight:bold}
+.checkout{width:100%}
+.modal{position:fixed;z-index:12;inset:0;display:none;align-items:center;justify-content:center;background:#0008;padding:15px}
+.modal.show{display:flex}
+.modal-content{background:white;width:min(470px,100%);max-height:90vh;overflow:auto;padding:28px}
+.modal-content h2{font-family:Georgia,serif;font-weight:normal;margin-bottom:18px}
+.modal-content label{display:block;font-size:12px;margin:14px 0 6px}
+.modal-content input,.modal-content select{width:100%;padding:12px;border:1px solid #ddd}
+.modal-content .primary-btn{width:100%;margin-top:18px}
+.note{font-size:11px;color:#777;line-height:1.6;margin-top:12px}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#171717;color:white;padding:13px 20px;z-index:30;display:none;font-size:13px;max-width:90%;text-align:center}
+.toast.show{display:block}
+@media(max-width:900px){
+header{padding:0 4%;height:auto;min-height:70px;flex-wrap:wrap;padding-top:15px;padding-bottom:15px}
+nav{order:3;width:100%;justify-content:center;gap:16px;flex-wrap:wrap}
+nav a{font-size:11px}
+.hero-text{padding:40px 8%}
+.products{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:600px){
+.logo{font-size:21px}
+.header-actions{gap:9px}
+.hero{grid-template-columns:1fr}
+.hero-text{padding:42px 7%}
+.hero-img{min-height:280px;height:300px}
+.section{padding:40px 5%}
+.categories{gap:9px}
+.category{height:145px}
+.category span{left:7px;bottom:7px;padding:8px;font-size:10px}
+.products{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 12px}
+.shop-tools{align-items:stretch;flex-direction:column}
+.search,select{width:100%}
+.benefits{grid-template-columns:1fr;padding:30px 7%}
+footer{grid-template-columns:1fr;gap:22px}
+.section-title{font-size:27px}
+}
+</style>
+</head>
+<body>
+
+<div class="announcement">BIRINCHI BUYURTMANGIZGA 10% CHEGIRMA · FASHION STORE</div>
+
+<header>
+  <a class="logo" href="#" style="color:inherit;text-decoration:none">FASHION STORE</a>
+  <nav>
+    <a href="#home">BOSH SAHIFA</a>
+    <a href="#categories">KATEGORIYALAR</a>
+    <a href="#shop">DO‘KON</a>
+    <a href="#contact">ALOQA</a>
+  </nav>
+  <div class="header-actions">
+    <button class="icon-btn" onclick="showFavorites()" aria-label="Sevimlilar">♡</button>
+    <button class="icon-btn" onclick="openCart()" aria-label="Savatcha">🛍 <span id="cartCount">0</span></button>
+  </div>
+</header>
+
+<main>
+<section class="hero" id="home">
+  <div class="hero-text">
+    <div class="eyebrow">YANGI MAVSUM · 2026</div>
+    <h1>Uslubingiz.<br>Qoidalaringiz.</h1>
+    <p>Har kuni o‘zingizni boshqacha his qiling. Kundalik kiyimlardan tortib, o‘zgacha obrazlargacha — barchasi bir joyda.</p>
+    <button class="primary-btn" onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})">XARIDLARNI BOSHLASH →</button>
+  </div>
+  <img class="hero-img" src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1200&q=85" alt="Zamonaviy moda kolleksiyasi">
+</section>
+
+<section class="section" id="categories">
+  <h2 class="section-title">Kategoriyalar</h2>
+  <p class="section-sub">O‘zingizga mos uslubni toping</p>
+  <div class="categories">
+    <div class="category" onclick="setCategory('Ayollar')">
+      <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=600&q=80" alt="Ayollar kiyimlari">
+      <span>AYOLLAR →</span>
+    </div>
+    <div class="category" onclick="setCategory('Erkaklar')">
+      <img src="https://images.unsplash.com/photo-1617137968427-85924c800a22?auto=format&fit=crop&w=600&q=80" alt="Erkaklar kiyimlari">
+      <span>ERKAKLAR →</span>
+    </div>
+    <div class="category" onclick="setCategory('Bolalar')">
+      <img src="https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?auto=format&fit=crop&w=600&q=80" alt="Bolalar kiyimlari">
+      <span>BOLALAR →</span>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="shop" style="padding-top:15px">
+  <h2 class="section-title">Bizning mahsulotlar</h2>
+  <p class="section-sub">Siz uchun tanlangan yangi kolleksiya</p>
+  <div class="shop-tools">
+    <input id="search" class="search" type="search" placeholder="Mahsulot qidirish..." oninput="renderProducts()">
+    <select id="sort" onchange="renderProducts()">
+      <option value="default">Saralash: odatiy</option>
+      <option value="low">Narx: arzondan qimmatga</option>
+      <option value="high">Narx: qimmatdan arzonga</option>
+      <option value="name">Nom bo‘yicha</option>
+    </select>
+  </div>
+  <div class="filters">
+    <button class="filter active" onclick="setCategory('Barchasi',this)">Barchasi</button>
+    <button class="filter" onclick="setCategory('Ayollar',this)">Ayollar</button>
+    <button class="filter" onclick="setCategory('Erkaklar',this)">Erkaklar</button>
+    <button class="filter" onclick="setCategory('Bolalar',this)">Bolalar</button>
+    <button class="filter" onclick="setCategory('Aksessuarlar',this)">Aksessuarlar</button>
+  </div>
+  <div class="products" id="products"></div>
+</section>
+
+<section class="benefits">
+  <div><h3>🚚 Qulay yetkazib berish</h3><p>Buyurtmangizni kelishilgan manzilga yetkazish imkoniyati.</p></div>
+  <div><h3>✦ Sifatli mahsulotlar</h3><p>Kundalik hayot uchun zamonaviy va qulay tanlov.</p></div>
+  <div><h3>☎ Mijozlarga yordam</h3><p>Savollaringiz bo‘lsa, biz bilan bog‘laning.</p></div>
+</section>
+</main>
+
+<footer id="contact">
+  <div><h3>FASHION STORE</h3><p>Har bir obrazingizda o‘z uslubingizni namoyon eting.</p></div>
+  <div><h3>Bo‘limlar</h3><a href="#shop">Barcha mahsulotlar</a><a href="#categories">Kategoriyalar</a><a href="#home">Bosh sahifa</a></div>
+  <div><h3>Biz bilan aloqa</h3><p>Telefon: +998 XX XXX XX XX</p><p>Telegram: @fashionstore</p><p>© 2026 Fashion Store</p></div>
+</footer>
+
+<div class="overlay" id="overlay" onclick="closeCart()"></div>
+<aside class="drawer" id="cartDrawer">
+  <div class="drawer-head"><h2>Savatchangiz</h2><button class="close-btn" onclick="closeCart()">×</button></div>
+  <div id="cartItems"></div>
+  <div class="total"><span>Jami:</span><span id="cartTotal">0 so‘m</span></div>
+  <button class="primary-btn checkout" onclick="checkout()">BUYURTMA BERISH →</button>
+  <p class="note">Bu namuna sayt. Buyurtma yuborish uchun haqiqiy do‘kon aloqa tizimini ulash kerak.</p>
+</aside>
+
+<div class="modal" id="orderModal">
+  <div class="modal-content">
+    <div class="drawer-head"><h2>Buyurtmani rasmiylashtirish</h2><button class="close-btn" onclick="closeOrder()">×</button></div>
+    <form id="orderForm">
+      <label for="customerName">Ism-familiya</label>
+      <input id="customerName" required placeholder="Ismingizni kiriting">
+      <label for="customerPhone">Telefon raqami</label>
+      <input id="customerPhone" required type="tel" placeholder="+998 90 123 45 67">
+      <label for="customerAddress">Yetkazib berish manzili</label>
+      <input id="customerAddress" required placeholder="Shahar, ko‘cha, uy">
+      <label for="payment">To‘lov usuli</label>
+      <select id="payment"><option>Yetkazilganda to‘lash</option><option>Naqd pul</option><option>Karta orqali (kelishilgan holda)</option></select>
+      <button class="primary-btn" type="submit">BUYURTMANI TASDIQLASH</button>
+      <p class="note">Namuna rejimida ma’lumotlar do‘konga yuborilmaydi va to‘lov amalga oshirilmaydi.</p>
+    </form>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const productsData = [
+{id:1,name:"Klassik bej ko‘ylak",cat:"Ayollar",price:289000,old:350000,size:"S, M, L",img:"photo-1539109136881-3be0616acf4b",tag:"YANGI"},
+{id:2,name:"Minimalist oq futbolka",cat:"Erkaklar",price:129000,old:159000,size:"M, L, XL",img:"photo-1521572163474-6864f9cf17ab",tag:"TOP"},
+{id:3,name:"Kundalik jinsi shim",cat:"Ayollar",price:249000,old:0,size:"S, M, L",img:"photo-1541099649105-f69ad21f3246",tag:""},
+{id:4,name:"Erkaklar klassik kostyumi",cat:"Erkaklar",price:599000,old:699000,size:"M, L, XL",img:"photo-1617137968427-85924c800a22",tag:"CHEGIRMA"},
+{id:5,name:"Yengil yozgi ko‘ylak",cat:"Ayollar",price:319000,old:0,size:"S, M, L",img:"photo-1515886657613-9f3515b0c78f",tag:""},
+{id:6,name:"Bolalar uchun to‘plam",cat:"Bolalar",price:179000,old:0,size:"2–8 yosh",img:"photo-1519238263530-99bdd11df2ea",tag:""},
+{id:7,name:"Kundalik qora kurtka",cat:"Erkaklar",price:429000,old:489000,size:"M, L, XL",img:"photo-1551028719-00167b16eac5",tag:""},
+{id:8,name:"Zamonaviy sumka",cat:"Aksessuarlar",price:199000,old:0,size:"Universal",img:"photo-1548036328-c9fa89d128fa",tag:"YANGI"},
+{id:9,name:"Ayollar kundalik obraz",cat:"Ayollar",price:359000,old:0,size:"S, M, L",img:"photo-1483985988355-763728e1935b",tag:""},
+{id:10,name:"Erkaklar kundalik ko‘ylagi",cat:"Erkaklar",price:219000,old:0,size:"M, L, XL",img:"photo-1598033129183-c4f50c736f10",tag:""},
+{id:11,name:"Bolalar bayram ko‘ylagi",cat:"Bolalar",price:239000,old:0,size:"2–8 yosh",img:"photo-1503944583220-79d8926ad5e2",tag:""},
+{id:12,name:"Klassik quyosh ko‘zoynagi",cat:"Aksessuarlar",price:99000,old:129000,size:"Universal",img:"photo-1511499767150-a48a237f0083",tag:""}
+];
+const money=n=>n.toLocaleString("uz-UZ")+" so‘m";
+let category="Barchasi",favorites=new Set(),cart=JSON.parse(localStorage.getItem("fashionCart")||"[]");
+let favoriteOnly=false;
+
+function photo(id,w=600){
+return `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&q=80`;
+}
+function saveCart(){
+try{localStorage.setItem("fashionCart",JSON.stringify(cart))}catch(e){}
+}
+function toast(msg){
+const el=document.getElementById("toast");el.textContent=msg;el.classList.add("show");
+setTimeout(()=>el.classList.remove("show"),2200);
+}
+function renderProducts(){
+const q=document.getElementById("search").value.toLowerCase().trim();
+let list=productsData.filter(p=>(category==="Barchasi"||p.cat===category)&&(!favoriteOnly||favorites.has(p.id))&&(p.name+" "+p.cat).toLowerCase().includes(q));
+const sort=document.getElementById("sort").value;
+if(sort==="low")list.sort((a,b)=>a.price-b.price);
+if(sort==="high")list.sort((a,b)=>b.price-a.price);
+if(sort==="name")list.sort((a,b)=>a.name.localeCompare(b.name,"uz"));
+document.getElementById("products").innerHTML=list.length?list.map(p=>`
+<article class="product">
+<div class="product-image">
+<img loading="lazy" src="${photo(p.img)}" alt="${p.name}" onerror="this.onerror=null;this.src='https://placehold.co/600x800/f2eee8/333?text=Fashion+Store'">
+${p.tag?`<span class="tag">${p.tag}</span>`:""}
+<button class="heart ${favorites.has(p.id)?"liked":""}" onclick="toggleFavorite(${p.id})" aria-label="Sevimlilarga qo‘shish">${favorites.has(p.id)?"♥":"♡"}</button>
+</div>
+<div class="product-info">
+<p>${p.cat} · ${p.size}</p><h3>${p.name}</h3>
+<span class="price">${money(p.price)}</span>${p.old?`<span class="old-price">${money(p.old)}</span>`:""}
+<button class="add-btn" onclick="addToCart(${p.id})">SAVATCHAGA QO‘SHISH +</button>
+</div></article>`).join(""):'<div class="empty">Mahsulot topilmadi. Boshqa so‘z bilan qidirib ko‘ring.</div>';
+}
+function setCategory(cat,btn){
+category=cat;favoriteOnly=false;
+document.querySelectorAll(".filter").forEach(b=>b.classList.toggle("active",b.textContent.trim()===(cat==="Barchasi"?"Barchasi":cat)));
+if(btn&&btn.classList.contains("filter"))btn.classList.add("active");
+document.getElementById("shop").scrollIntoView({behavior:"smooth"});
+renderProducts();
+}
+function toggleFavorite(id){
+favorites.has(id)?favorites.delete(id):favorites.add(id);
+renderProducts();
+}
+function showFavorites(){
+favoriteOnly=true;category="Barchasi";
+document.querySelectorAll(".filter").forEach(b=>b.classList.toggle("active",b.textContent.trim()==="Barchasi"));
+renderProducts();
+document.getElementById("shop").scrollIntoView({behavior:"smooth"});
+}
+function addToCart(id){
+const found=cart.find(x=>x.id===id);
+if(found)found.qty++;else cart.push({id,qty:1});
+saveCart();renderCart();toast("Mahsulot savatchaga qo‘shildi!");
+}
+function changeQty(id,delta){
+const item=cart.find(x=>x.id===id);
+if(item)item.qty+=delta;
+cart=cart.filter(x=>x.qty>0);saveCart();renderCart();
+}
+function removeItem(id){
+cart=cart.filter(x=>x.id!==id);saveCart();renderCart();
+}
+function renderCart(){
+document.getElementById("cartCount").textContent=cart.reduce((s,x)=>s+x.qty,0);
+document.getElementById("cartItems").innerHTML=cart.length?cart.map(x=>{
+const p=productsData.find(p=>p.id===x.id);
+if(!p)return "";
+return `<div class="cart-item"><img src="${photo(p.img,200)}" alt="${p.name}"><div><h4>${p.name}</h4><p>${money(p.price)}</p><div class="qty"><button onclick="changeQty(${p.id},-1)">−</button><span>${x.qty}</span><button onclick="changeQty(${p.id},1)">+</button></div></div><button class="remove" onclick="removeItem(${p.id})">O‘chirish</button></div>`;
+}).join(""):'<div class="empty">Savatchangiz hozircha bo‘sh.</div>';
+document.getElementById("cartTotal").textContent=money(cart.reduce((s,x)=>s+(productsData.find(p=>p.id===x.id)?.price||0)*x.qty,0));
+}
+function openCart(){
+document.getElementById("overlay").classList.add("show");
+document.getElementById("cartDrawer").classList.add("show");
+}
+function closeCart(){
+document.getElementById("overlay").classList.remove("show");
+document.getElementById("cartDrawer").classList.remove("show");
+}
+function checkout(){
+if(!cart.length){toast("Avval savatchaga mahsulot qo‘shing.");return}
+closeCart();document.getElementById("orderModal").classList.add("show");
+}
+function closeOrder(){document.getElementById("orderModal").classList.remove("show")}
+document.getElementById("orderForm").addEventListener("submit",function(e){
+e.preventDefault();
+const order={
+name:document.getElementById("customerName").value.trim(),
+phone:document.getElementById("customerPhone").value.trim(),
+address:document.getElementById("customerAddress").value.trim(),
+payment:document.getElementById("payment").value,
+items:cart.map(x=>({name:productsData.find(p=>p.id===x.id)?.name,qty:x.qty})),
+total:cart.reduce((s,x)=>s+(productsData.find(p=>p.id===x.id)?.price||0)*x.qty,0)
+};
+alert("Namuna buyurtmasi tayyor!\n\nMijoz: "+order.name+"\nTelefon: "+order.phone+"\nMahsulotlar: "+order.items.map(x=>x.name+" × "+x.qty).join(", ")+"\nJami: "+money(order.total)+"\n\nBu ma’lumot do‘konga yuborilmadi. Haqiqiy buyurtmalar uchun server yoki Telegram bot ulanishi kerak.");
+cart=[];saveCart();renderCart();closeOrder();this.reset();
+});
+document.getElementById("orderModal").addEventListener("click",function(e){if(e.target===this)closeOrder()});
+renderProducts();renderCart();
+</script>
+</body>
+</html>
